@@ -4,6 +4,7 @@ import LoggedOut from "./LoggedOut";
 import HomePage from "./HomePage";
 // import styled from "styled-components"
 import '../App.css';
+import Checkout from "./Checkout";
 
 
 function App() {
@@ -26,15 +27,13 @@ function App() {
   if(!currentUser)
     return (<LoggedOut setCurrentUser={setCurrentUser} />);
 
-  
-    
 
   return (
     <div>
       <h1>Welcome to Johnny's Barber Shop</h1>
       <Routes >
         <Route exact path="/" element={<HomePage setCurrentUser={setCurrentUser} currentUser={currentUser}/>} />
-
+        <Route exact path="/checkout" element={<Checkout/>} />
       </Routes>
     </div>
   );
