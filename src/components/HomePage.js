@@ -5,11 +5,13 @@ import Checkout from "./Checkout";
 
 
 function HomePage({ setCurrentUser, currentUser }) {
+
+  // >----------<Variables>----------<
   const [items, setItems] = useState([]);
   const [cart, setCart] = useState([])
   const navigate = useNavigate();
 
-  
+  // >----------<Fetches>----------<
   useEffect(() => {
     fetch("/items")
     .then(r => r.json())
@@ -17,8 +19,7 @@ function HomePage({ setCurrentUser, currentUser }) {
       setItems(items);
     })
   }, []);
-
-
+  
   useEffect(() => {
     fetch("/me").then((r) => {
       if (r.ok === false) {
@@ -27,50 +28,97 @@ function HomePage({ setCurrentUser, currentUser }) {
     });
   }, []);
 
+  useEffect(() => {
+    fetch("/orders")
+    .then((r) => {
+      if (r.ok) {
+        r.json()
+          .then( orderItems => {
+            setCart(orderItems);
+          });
+      } else
+          r.json()
+          .then((err) => {
+              console.error(err)
+          });
+    });
+    }, []);
+
+
+// console.log(cart)
+  // >----------<Functions>----------<
   const handleLogout = () => {
       setCurrentUser(null);
       fetch("/logout", { method: "DELETE" }).then(() => navigate('/login'))
     };
 
-    const handleAdd = (selectedItem) => {
-      const newCart = [...cart, selectedItem]
-      setCart(newCart)
-    }
-
-    const handleRemove = (deselectedItem) => {
-      const indexToDelete = cart.findIndex((item) => item.id === deselectedItem.id)
-      console.log(indexToDelete)
-      if(indexToDelete !== -1) {
-        const newCart = [...cart]
-        newCart.splice(indexToDelete, 1)
-        setCart(newCart)
-      }
-    }
-    console.log(cart)
-
-    const handleCheckout = () => {
-      fetch("/logout", { method: "DELETE" }).then(() => navigate('/login'))
-    };
-
-    return (
-
-      <>
-        <div>
-          Hi {currentUser.first_name}!
-        <div>
-        {items.map((item) => (
-          <Items key={item.id} item={item} handleAdd={handleAdd} handleRemove={handleRemove} />
-          ))}
-        </div>
-        <div>
-          <button>Checkout</button>
-        </div>
-        <br/>
-          <button onClick={handleLogout}>Logout</button>
-          
-        </div>
-      </>
-    );
+  const handleAdd = (selectedItem) => {
+    const newCart = [...cart, selectedItem]
+    setCart(newCart)
+    // console.log(cart)
+    fetch("/order_items", {
+      method: "POST",
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        item_id: selectedItem.id,
+        item_name: selectedItem.name
+      })
+    })
+    .then(r => r.json())
+    .then(message => console.log(message))
   }
+
+  const handleRemove = (deselectedItem) => {
+    console.log(cart)
+    const indexToDelete = cart.findIndex((item) => item.id === deselectedItem.id)
+    if(indexToDelete !== -1) {
+      const newCart = [...cart]
+      newCart.splice(indexToDelete, 1)
+      setCart(newCart)
+      const id = deselectedItem.id
+      fetch(`/order_items/${id}`, {
+        method: "DELETE"
+      })
+      .then(r => r.json())
+      .then(message => console.log(message))
+    } 
+  }
+  // console.log(cart)
   
-  export default HomePage;
+  // console.log(cart[0].price_id)
+  const handleCheckout = () => {
+    const price_id = cart.map((item) => (
+      item.price_id
+      ))
+      console.log(price_id)
+    fetch("/create-checkout-session", {
+      method: "POST",
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ cart })
+    })
+    .then(r => r.json())
+    .then(message => console.log(message))
+
+  };
+
+  return (
+
+    <>
+      <div>
+        Hi {currentUser.first_name}!
+      <div>
+        {items.map((item) => (
+        <Items key={item.id} item={item} handleAdd={handleAdd} handleRemove={handleRemove} cart={cart}/>
+        ))}
+      </div>
+      <div>
+        <button onClick={handleCheckout}>Checkout</button>
+      </div>
+      <br/>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+    </>
+  );
+}
+
+export default HomePage;

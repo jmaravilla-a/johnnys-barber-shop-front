@@ -33,7 +33,7 @@ function App() {
       <h1>Welcome to Johnny's Barber Shop</h1>
       <Routes >
         <Route exact path="/" element={<HomePage setCurrentUser={setCurrentUser} currentUser={currentUser}/>} />
-        <Route exact path="/checkout" element={<Checkout/>} />
+        <Route exact path="/checkout" element={<Checkout />} />
       </Routes>
     </div>
   );
