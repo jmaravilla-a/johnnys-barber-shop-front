@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Items from "./Items";
 import Checkout from "./Checkout";
@@ -55,6 +55,8 @@ function HomePage({ setCurrentUser, currentUser }) {
   const handleAdd = (selectedItem) => {
     const newCart = [...cart, selectedItem]
     setCart(newCart)
+    // console.log(selectedItem.id)
+    console.log(selectedItem.name)
     // console.log(cart)
     fetch("/order_items", {
       method: "POST",
@@ -87,17 +89,20 @@ function HomePage({ setCurrentUser, currentUser }) {
   
   // console.log(cart[0].price_id)
   const handleCheckout = () => {
-    const price_id = cart.map((item) => (
+    const price_ids = cart.map((item) => (
       item.price_id
       ))
-      console.log(price_id)
+      console.log(price_ids)
     fetch("/create-checkout-session", {
       method: "POST",
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ cart })
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ price_id: price_ids })
     })
     .then(r => r.json())
-    .then(message => console.log(message))
+    .then(url => {
+      console.log(url)
+      // navigate(url)
+    })
 
   };
 
