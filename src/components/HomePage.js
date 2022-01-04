@@ -1,7 +1,7 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Items from "./Items";
-import Checkout from "./Checkout";
+
 
 
 function HomePage({ setCurrentUser, currentUser }) {
@@ -15,9 +15,7 @@ function HomePage({ setCurrentUser, currentUser }) {
   useEffect(() => {
     fetch("/items")
     .then(r => r.json())
-    .then( items => {
-      setItems(items);
-    })
+    .then(setItems)
   }, []);
   
   useEffect(() => {
@@ -55,9 +53,6 @@ function HomePage({ setCurrentUser, currentUser }) {
   const handleAdd = (selectedItem) => {
     const newCart = [...cart, selectedItem]
     setCart(newCart)
-    // console.log(selectedItem.id)
-    console.log(selectedItem.name)
-    // console.log(cart)
     fetch("/order_items", {
       method: "POST",
       headers: {'Content-Type':'application/json'},
@@ -85,26 +80,28 @@ function HomePage({ setCurrentUser, currentUser }) {
       .then(message => console.log(message))
     } 
   }
-  // console.log(cart)
-  
-  // console.log(cart[0].price_id)
+
   const handleCheckout = () => {
     const price_ids = cart.map((item) => (
       item.price_id
       ))
       console.log(price_ids)
-    fetch("/create-checkout-session", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ price_id: price_ids })
-    })
-    .then(r => r.json())
-    .then(url => {
-      console.log(url)
-      // navigate(url)
-    })
-
+    if (price_ids.length > 0)
+      fetch("/create-checkout-session", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ price_id: price_ids })
+      })
+      .then( r => r.json())
+      .then( url => window.location.href = url )
   };
+  console.log(cart)
+  let checkoutButton;
+  if (cart.length > 0) {
+    checkoutButton = <button onClick={handleCheckout}>Checkout</button>
+  } else {
+    checkoutButton = <div></div>
+  }
 
   return (
 
@@ -117,7 +114,7 @@ function HomePage({ setCurrentUser, currentUser }) {
         ))}
       </div>
       <div>
-        <button onClick={handleCheckout}>Checkout</button>
+        {checkoutButton}
       </div>
       <br/>
         <button onClick={handleLogout}>Logout</button>

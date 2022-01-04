@@ -1,16 +1,19 @@
 // import {useState} from "react";
 
 function Items ({item, handleAdd, handleRemove, cart}) {
-    // const [quantity, setQuantity] = useState(0)
-    // const amount = () => {
-    //     cart.map((items) => (
 
-    //     ))
-    // }
+    let quantity = 0;
+    for (let i=0; i <= cart.length -1; i++) {
+        if (item.id === cart[i].id) {
+            quantity++
+        }
+    }
+    // console.log(quantity)
+    
     return (
         <div>
             <p><button onClick={() => handleAdd(item)}>+</button> {item.name} ${item.price} <button onClick={() => handleRemove(item)}>-</button></p>
-            <p>Quantity: {}</p>
+            <p>Quantity: {quantity}</p>
         </div>
     )
 }
