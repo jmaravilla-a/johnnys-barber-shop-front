@@ -1,4 +1,6 @@
-// import {useState} from "react";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+
 
 function Items ({item, handleAdd, handleRemove, cart}) {
 
@@ -12,7 +14,9 @@ function Items ({item, handleAdd, handleRemove, cart}) {
     
     return (
         <div>
-            <p><button onClick={() => handleAdd(item)}>+</button> {item.name} ${item.price} <button onClick={() => handleRemove(item)}>-</button></p>
+            <p><Button variant="outlined" color="success" size="small" onClick={() => handleAdd(item)}>+</Button> 
+            {item.name} ${item.price} 
+            <Button variant="outlined" color="error" size="small" onClick={() => handleRemove(item)}>-</Button></p>
             <p>Quantity: {quantity}</p>
         </div>
     )

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Button from '@mui/material/Button';
 import Items from "./Items";
 
 
@@ -95,10 +96,22 @@ function HomePage({ setCurrentUser, currentUser }) {
       .then( r => r.json())
       .then( url => window.location.href = url )
   };
-  console.log(cart)
+
   let checkoutButton;
+  let total;
+  let sum = 0;
+
   if (cart.length > 0) {
-    checkoutButton = <button onClick={handleCheckout}>Checkout</button>
+    const prices = cart.map((item) => (
+      item.price
+      ))
+    for (let num of prices){
+      sum = sum + num
+    }
+      console.log(sum)
+    // amount = cart.map((item) => ())
+    total = <div>Total: ${sum}</div>
+    checkoutButton = <Button variant="contained" color="success" size="large" onClick={handleCheckout}>Proceed to checkout</Button>
   } else {
     checkoutButton = <div></div>
   }
@@ -108,16 +121,19 @@ function HomePage({ setCurrentUser, currentUser }) {
     <>
       <div>
         Hi {currentUser.first_name}!
+      </div>
       <div>
         {items.map((item) => (
         <Items key={item.id} item={item} handleAdd={handleAdd} handleRemove={handleRemove} cart={cart}/>
         ))}
       </div>
       <div>
+        {total}
         {checkoutButton}
       </div>
       <br/>
-        <button onClick={handleLogout}>Logout</button>
+      <div>
+        <Button variant="outlined" color="error" size="small" onClick={handleLogout}>Logout</Button>
       </div>
     </>
   );

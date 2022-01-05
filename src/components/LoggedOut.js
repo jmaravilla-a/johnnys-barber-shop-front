@@ -1,7 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import LoginForm from "./forms/LoginForm";
+// import LoginForm from "./forms/LoginForm";
 import SignupForm from "./forms/SignupForm";
+import SignInSide from "./forms/SignInSide";
 
 function LoggedOut({ setCurrentUser }) {
   return (
@@ -11,7 +12,7 @@ function LoggedOut({ setCurrentUser }) {
         <Route
           exact
           path="/login"
-          element={<LoginForm setCurrentUser={setCurrentUser} />}
+          element={<SignInSide setCurrentUser={setCurrentUser} />}
         />
 
         <Route
