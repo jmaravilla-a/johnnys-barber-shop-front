@@ -101,7 +101,7 @@ function SignInSide({ setCurrentUser }) {
                 alignItems: 'center',
                 }}
             >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
                 <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
@@ -135,7 +135,7 @@ function SignInSide({ setCurrentUser }) {
                 <Button
                     type="submit"
                     fullWidth
-                    variant="contained"
+                    variant="outlined"
                     sx={{ mt: 3, mb: 2 }}
                 >
                     Sign In

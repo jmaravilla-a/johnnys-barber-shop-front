@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import LoggedOut from "./LoggedOut";
 import HomePage from "./HomePage";
-// import styled from "styled-components"
 import '../App.css';
 
 
@@ -28,14 +27,19 @@ function App() {
 
 
   return (
-    <div>
-      <h1>Welcome to Johnny's Barber Shop</h1>
-      <Routes >
-        <Route exact path="/" element={<HomePage setCurrentUser={setCurrentUser} currentUser={currentUser}/>} />
-      </Routes>
-    </div>
+    <>
+      <div className="header">
+        <img className="logo" src="https://lh3.googleusercontent.com/RaNBDC1mlmSWXY7G1_Db93EQxTwzMwqiRS7Yq_BnJtfRobiEs7UIxjx97SSX0QpcY4I_RvJW=w1080-h608-p-no-v0"/>
+      </div>
+      <div id="parentwrapper">
+      <div id="wrapper">
+        <Routes >
+          <Route exact path="/" element={<HomePage setCurrentUser={setCurrentUser} currentUser={currentUser}/>} />
+        </Routes>
+      </div>
+      </div>
+    </>
   );
 }
 
 export default App;
-

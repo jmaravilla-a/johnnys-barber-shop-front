@@ -111,31 +111,34 @@ function HomePage({ setCurrentUser, currentUser }) {
       console.log(sum)
     // amount = cart.map((item) => ())
     total = <div>Total: ${sum}</div>
-    checkoutButton = <Button variant="contained" color="success" size="large" onClick={handleCheckout}>Proceed to checkout</Button>
+    checkoutButton = <Button variant="contained" color="success" size="medium" onClick={handleCheckout}>Proceed to checkout</Button>
   } else {
-    checkoutButton = <div></div>
+    total = <div>Total: ${sum}</div>
+    checkoutButton = <Button variant="disabled" color="success" size="large" >Proceed to checkout</Button>
   }
 
   return (
 
-    <>
-      <div>
+    <div>
+      <div className="welcome" >
         Hi {currentUser.first_name}!
       </div>
-      <div>
-        {items.map((item) => (
-        <Items key={item.id} item={item} handleAdd={handleAdd} handleRemove={handleRemove} cart={cart}/>
-        ))}
+      <div className="itemsContainer">
+        <div className="items">
+          {items.map((item) => (
+          <Items key={item.id} item={item} handleAdd={handleAdd} handleRemove={handleRemove} cart={cart}/>
+          ))}
+        </div>
       </div>
-      <div>
+      <div className="buttons">
         {total}
+        {/* <br/> */}
         {checkoutButton}
       </div>
-      <br/>
-      <div>
+      <div className="logoutButton">
         <Button variant="outlined" color="error" size="small" onClick={handleLogout}>Logout</Button>
       </div>
-    </>
+    </div>
   );
 }
 
