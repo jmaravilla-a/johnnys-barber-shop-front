@@ -1,3 +1,8 @@
+html {
+  background: url("./components/utilities/AdobeStock_238613870.jpeg") no-repeat center center fixed;
+  background-size: cover;
+}
+
 .header {
   margin-top: 1vh;
   margin-bottom: 1vh;
@@ -91,8 +96,4 @@
   font-weight: bold;
 }
 
-html {
-  background: url("./AdobeStock_238613870.jpeg") no-repeat center center fixed;
-  background-size: cover;
-}
 

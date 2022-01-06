@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import FrontPage from '../utilities/FrontPage.jpeg'
 
 function Copyright(props) {
   return (
@@ -85,7 +86,8 @@ function SignUpSide({ setCurrentUser }) {
             sm={4}
             md={8}
             sx={{
-                backgroundImage: 'url(https://images.unsplash.com/photo-1524230616393-d6229fcd2eff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)',
+               
+                backgroundImage: `url(${FrontPage})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
